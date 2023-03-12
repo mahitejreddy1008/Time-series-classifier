@@ -5,10 +5,12 @@ from statsmodels.tsa.stattools import pacf
 import pandas as pd
 from pandas.tseries.holiday import USFederalHolidayCalendar as calendar
 import pickle
-
 from statsmodels.tsa.stattools import adfuller
 
-
+#test_stationarity for checking whether time series data is stationary or not
+#null hypothesis : the data contains unit root
+#alternate hypothesis: the data is stationary
+#if pvalue <0.05 then we reject the null hypothesis i.e, the data is stationary
 def test_stationarity(timeseries, window=12, cutoff=0.01):
     # Determing rolling statistics
     rolmean = timeseries.rolling(window).mean()
@@ -22,10 +24,10 @@ def test_stationarity(timeseries, window=12, cutoff=0.01):
         return 1
     else:
         return 0
-
+#function to find for radial basis function which is one of attribute
 def rbf(x, c, s):
     return np.exp(-1 / (2 * s**2) * (x-c)**2)
-
+#feature engineering function for creating new features for time series data
 def FeatureEngineering(df,x_name,y_name,typeData = 3):
   '''
   typeData: 0-> Day 1->Month 2->Weakly 3-> Hourly
@@ -34,7 +36,7 @@ def FeatureEngineering(df,x_name,y_name,typeData = 3):
   df = df.set_index(x_name)
   df.index = pd.to_datetime(df.index)
   df = df.dropna()'''
-
+  #dictionary for storing all new features in feature extraction
   res = {"Stationarity":test_stationarity(df),"ACF":np.mean(acf(df,nlags=2)),"PACF":np.mean(pacf(df,nlags=2)),"YMean":df[y_name].mean(),"TypeData":typeData,"YStd":df[y_name].std(),"CosineYMean": np.cos(df[y_name]).mean(),"SineYMean":np.sin(df[y_name]).mean(),"MaxY":max(df[y_name]),"MinY":min(df[y_name]),"MedianY":df[y_name].median(),"25PercY":df[y_name].quantile(q=0.25),"75PercY":df[y_name].quantile(q=0.75),"RBFY":rbf(2*df[y_name],df[y_name],1).mean(), }
   cal = calendar()
   holidays = cal.holidays(start=df.index.min(), end=df.index.max())
@@ -51,7 +53,7 @@ def FE(typeData):
 
     x_name, y_name = "point_timestamp", "point_value"
     res = None
-
+    #Based on typeData we need to create new dataset which contains features which we created before
     if typeData.lower() == 'daily':
         res = FeatureEngineering(df, x_name, y_name, typeData=0)
 
@@ -67,6 +69,8 @@ def FE(typeData):
     res = [res]
     res = pd.DataFrame.from_dict(res)
     #print(res)
+    #loading the pickle file which contains multiway classifier
+    #the model used for classification is random forest regressor
     loaded_model = pickle.load(open("classifier.pkl", 'rb'))
     output = loaded_model.predict(res)
     print(output)

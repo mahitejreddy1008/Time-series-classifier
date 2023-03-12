@@ -1,8 +1,9 @@
+#importing libraries used for building time series models
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-
+#arima function for time series prediction
 def arima_(df,date):
   from statsmodels.tsa.arima.model import ARIMA
   from sklearn.metrics import mean_absolute_percentage_error as mape
@@ -23,7 +24,7 @@ def arima_(df,date):
       try:
           model = ARIMA(df, order=params)
           results = model.fit()
-          aic_values.append((params, results.aic))
+          aic_values.append((params, results.aic))#which has less aic value that parameters will be best for parameters of ARIMAS
       except:
           continue
 
@@ -41,8 +42,6 @@ def sarimax_(df,date):
   from statsmodels.tsa.statespace.sarimax import SARIMAX
   from sklearn.metrics import mean_absolute_percentage_error as mape
   from itertools import product
-  # Define the range of values for p, d, and q
-
   train, test = data[:int(len(df)*0.9)], data[int(len(df)*0.9):]
   model1 = SARIMAX(train, order=(1,1,1), seasonal_order=(1,1,1,12)).fit()
   #dates= pd.date_range(start=train.index[len(train)-1], periods=len(test))
@@ -51,7 +50,7 @@ def sarimax_(df,date):
   pred = model1.predict(start=date)
   return mape(test, sarima_prediction.values),pred
 
-
+#this function is used to create features for xgboost model
 def create_features(df, label=None):
     """
     Creates time series features from datetime index
@@ -91,6 +90,7 @@ def feature_selection_pred(date):
             dayofyear, dayofmonth, weekofyear]]
 
     return X
+#xgboost function for time series data
 def xgboost_(df,date):
   import xgboost as xgb
   from xgboost import plot_importance, plot_tree
@@ -107,7 +107,7 @@ def xgboost_(df,date):
   print(pred_features,len(pred_features))
   pred = reg.predict(np.array(pred_features[0]).reshape(1,-1))
   return mape(xgforecast, Ytest),pred
-
+#this function is for selecting bestb model which has least MAPE value
 def Model(type,df,date):
     res = None
     if type == "ARIMA":
