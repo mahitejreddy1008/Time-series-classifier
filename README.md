@@ -23,4 +23,28 @@ Now when a new sample is uploaded by user first basic preprocessing will be done
 
 After completing the model I started doing backend using FastAPI. It was hard at the beginning to build the backend but eventually by browsing I have created a simple backend which takes a csv file as input and stores it in a local drive. Then use that csv file for further processes. Then I have created a simple UI using HTML. It just takes csv file and other inputs and prints the results in second page.
 
+Outputs
+
+User Interface
+
 ![Screenshot (6)](https://user-images.githubusercontent.com/102681460/224605692-3f1fd530-945c-4239-bc5b-4f19becaeccb.png)
+
+How to upload a file
+
+![Screenshot (7)](https://user-images.githubusercontent.com/102681460/224606040-c182b9b8-0203-47f2-852f-83f7cf90d63d.png)
+
+![Screenshot (9)](https://user-images.githubusercontent.com/102681460/224606117-b9b2a0f1-0091-46b5-ab94-ffd89d63d3f7.png)
+
+![Screenshot (10)](https://user-images.githubusercontent.com/102681460/224606146-550eb854-582c-4a92-afbc-ab8683838f67.png)
+
+Result:
+
+![Screenshot (11)](https://user-images.githubusercontent.com/102681460/224606184-522b511e-b849-4b3a-b4fc-a74be4e5c04e.png)
+
+These are the outputs I got from the project after giving csv file as input and also entering other features
+
+
+
+
+
+
