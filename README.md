@@ -1,6 +1,14 @@
 # datagenie_hackathon
 Time series Classification
 
+How to run:
+
+Open the files using vscode or any python editor
+
+install all libraries needed
+
+Run this command = uvicorn main:app --reload
+
 The goal is to create an efficient time series model selection  algorithm.
 
 We need to create an efficient time series classification algorithm so that if we give a new time series data it needs to classify which model is better for the given time series model and we need to generate predictions with help of the best model.
