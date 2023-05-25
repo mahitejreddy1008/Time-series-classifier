@@ -1,5 +1,4 @@
-# datagenie_hackathon
-Time series Classification
+#Time series Classification
 
 How to run:
 
