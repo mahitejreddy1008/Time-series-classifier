@@ -1,5 +1,4 @@
-#Time series Classification
-
+Time series Classification
 How to run:
 
 Open the files using vscode or any python editor
